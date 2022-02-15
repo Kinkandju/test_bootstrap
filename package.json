@@ -1,14 +1,14 @@
 {
-	"name": "rolling-scopes-school",
+	"name": "test_bootstrap",
 	"version": "1.0.0",
-	"description": "Portfolio",
+	"description": "test task",
 	"main": "index.html",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/rolling-scopes-school/kinkandju-JSFEPRESCHOOL.git"
+		"url": "git+https://github.com/Kinkandju/test_bootstrap.git"
 	},
 	"author": "Evgeniya Yamschikova",
 	"license": "ISC",

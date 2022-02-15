@@ -1,0 +1,8 @@
+.hed-flex {
+	@media (max-width: $tablet) {
+		display: flex;
+		justify-content: flex-start;
+		flex-direction: column;
+		align-items: center;
+	}
+}

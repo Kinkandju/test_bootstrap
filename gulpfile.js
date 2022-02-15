@@ -12,7 +12,7 @@ const path = {
 	src: {
 		html: [source_folder + "/*.html", "!" + source_folder + "/_*.html"],
 		css: source_folder + "/scss/*.scss",
-		js: source_folder + "/js/**/*.js",
+		js: source_folder + "/js/*.js",
 		img: source_folder + "/assets/img/**/*.{jpg,png,gif,ico,webp}",
 		fonts: source_folder + "/assets/fonts/*.{woff,woff2}"
 	},
@@ -34,6 +34,7 @@ const { src, dest } = require("gulp"),
 	autoprefixer = require("gulp-autoprefixer"),
 	cleancss = require("gulp-clean-css"),
 	rename = require("gulp-rename"),
+	uglify = require("gulp-uglify-es").default,
 	groupmedia = require("gulp-group-css-media-queries");
 
 const browserSync = (params) => {
@@ -83,6 +84,15 @@ const parseCss = () => {
 const parseJs = () => {
 	return src(path.src.js)
 		.pipe(fileinclude())
+		.pipe(dest(path.build.js))
+		.pipe(
+			uglify()
+		)
+		.pipe(
+			rename({
+				extname: ".min.js"
+			})
+		)
 		.pipe(dest(path.build.js))
 		.pipe(browsersync.stream())
 }

@@ -22,6 +22,50 @@
   src: local("Neris"), local("Neris-Light"), url("../assets/fonts/neris_light.woff") format("woff"), url("../assets/fonts/neris_light.woff2") format("woff2");
 }
 
+header {
+  padding: 95px 0 115px 0;
+}
+
+.header-container {
+  padding: 0 9px;
+  max-width: 1170px;
+}
+
+.header-info h1 {
+  margin: 0 0 54px 0;
+  font-family: "Neris", "Neris-SemiBold", "Arial", sans-serif;
+  font-size: 45px;
+  line-height: 60px;
+  font-weight: 600;
+}
+
+.header-info p {
+  margin: 0 0 65px 0;
+  max-width: 470px;
+  font-family: "Neris", "Neris-Light", "Arial", sans-serif;
+  font-size: 22px;
+  line-height: 40px;
+  font-weight: 300;
+}
+
+.header-button {
+  padding: 18px 14.1% 19px 14.2%;
+  font-family: "Neris", "Neris-Black", "Arial", sans-serif;
+  font-size: 17px;
+  line-height: 23px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #ffffff;
+  background-color: #ee3124;
+  border: none;
+}
+
+.header-picture img {
+  position: relative;
+  top: 5px;
+  left: -42px;
+}
+
 .how {
   padding: 110px 0;
   margin: 0 auto;
@@ -150,21 +194,43 @@
   margin: 0;
 }
 
-@media (max-width: 768px) {
-  .hed-flex {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
+@media (max-width: 991px) {
+  .header-container {
+    padding: 0 12% 0 13%;
+  }
+
+  .header-info {
+    margin: 0 0 50px 0;
+  }
+
+  .header-info p {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .accordion {
+    margin: 0 0 58px 0;
+  }
+}
+
+@media (max-width: 769px) {
+  header {
+    padding: 70px 0 73px 0;
+  }
+
+  .header-button {
+    padding: 18px 3%;
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .header-picture {
+    margin: 0 auto;
+  }
+
+  .header-picture img {
+    top: 0;
+    left: 0;
   }
 
   .how {
@@ -191,10 +257,6 @@
   .how-image img {
     top: 0;
     left: 0;
-  }
-
-  .accordion {
-    margin: 0 0 58px 0;
   }
 
   .accordion-button {
@@ -224,7 +286,31 @@
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 376px) {
+  header {
+    padding: 37px 0 73px 0;
+  }
+
+  .header-container {
+    padding: 0 17px;
+  }
+
+  .header-info h1 {
+    margin: 0 0 30px 0;
+    font-size: 30px;
+    line-height: 40px;
+  }
+
+  .header-info p {
+    margin: 0 0 37px 0;
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  .header-picture img {
+    width: 274px;
+  }
+
   .how {
     padding: 60px 0 76px 0;
   }

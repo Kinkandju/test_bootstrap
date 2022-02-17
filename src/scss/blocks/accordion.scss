@@ -23,6 +23,15 @@
 	color: $black;
 	background-color: $grey;
 
+	&:not(.collapsed),
+	&:focus {
+		box-shadow: none;
+	}
+
+	&::after {
+		display: none;
+	}
+
 	@media (max-width: $tablet) {
 		line-height: 30px;
 	}
@@ -32,11 +41,6 @@
 	}
 }
 
-.accordion-button:not(.collapsed),
-.accordion-button:focus {
-	box-shadow: none;
-}
-
 .accordion-item .accordion-button {
 	padding: 0 0 0 16.6%;
 
@@ -44,14 +48,14 @@
 	background-color: $grey;
 }
 
-.accordion-button::after {
-	display: none;
-}
-
 .accordion-button.collapsed {
 	position: relative;
 
 	padding: 0 0 0 16.6%;
+
+	&::after {
+		display: none;
+	}
 }
 
 .accordion-item .accordion-button::before,
@@ -81,10 +85,6 @@
 		font-size: 20px;
 		line-height: 30px;
 	}
-}
-
-.accordion-button.collapsed::after {
-	display: none;
 }
 
 .accordion-body {

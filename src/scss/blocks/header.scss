@@ -1,4 +1,62 @@
-header {
+.container-group-all {
+	padding: 20px 70px;
+}
+
+.logo {
+	padding: 5px 60px;
+
+	font-family: $f-neris-b;
+	font-size: 15px;
+	line-height: 20px;
+	font-weight: 900;
+	text-transform: uppercase;
+
+	color: $white;
+	background-color: $blue;
+	border-radius: 50px;
+}
+
+.nav-item {
+	margin: 0 30px 0 0;
+	padding: 0;
+
+	font-family: $f-neris-l;
+	font-size: 18px;
+	line-height: 24px;
+	font-weight: 300;
+
+	&:last-child {
+		margin: 0;
+	}
+}
+
+.nav-link {
+	padding: 9px 0 7px 0;
+
+	border-bottom: 2px solid transparent;
+	color: $black;
+
+	&:hover,
+	&:active {
+		color: $black;
+		border-bottom: 2px solid $red;
+	}
+}
+
+.nav-btn {
+	padding: 12px 39px;
+
+	font-family: $f-neris-b;
+	font-size: 12px;
+	line-height: 16px;
+	font-weight: 900;
+	text-transform: uppercase;
+
+	color: $white;
+	background-color: $red;
+}
+
+.header {
 	padding: 95px 0 115px 0;
 
 	@media (max-width: $tablet) {
@@ -84,6 +142,13 @@ header {
 	color: $white;
 	background-color: $red;
 	border: none;
+
+	transition: all 0.50s ease-in-out;
+
+	&:hover,
+	&:active {
+		background-color: $blue;
+	}
 
 	@media (max-width: $tablet) {
 		padding: 18px 3%;

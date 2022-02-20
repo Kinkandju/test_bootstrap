@@ -1,4 +1,4 @@
-// Импортируем js-файлы
+// Импорт скомпилированного файла bootstrap
 /*!
   * Bootstrap v5.1.3 (https://getbootstrap.com/)
   * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
@@ -6812,3 +6812,5 @@
 }));
 //# sourceMappingURL=bootstrap.bundle.js.map
 
+
+// Импорт js-файлов

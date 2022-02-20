@@ -45,7 +45,7 @@ const { src, dest } = require("gulp"),
 
 
 /* настройки сервера */
-var config = {
+const config = {
 	server: {
 		baseDir: './assets/build'
 	},

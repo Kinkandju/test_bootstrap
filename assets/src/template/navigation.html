@@ -1,14 +1,14 @@
-<div class="container-fluid container-group-all">
-	<div class="row align-items-center justify-content-between">
-		<div class="col-2 align-self-center">
+<div class="container-fluid navigation">
+	<div class="row align-items-center justify-content-between nav-row">
+		<div class="col-2 nav-logo">
 			<span class="logo">Logo</span>
 		</div>
 
-		<div class="col-8 align-self-center">
-			<div class="container container-group">
-				<div class="row align-items-center justify-content-between">
-					<div class="col-9 align-self-center">
-						<ul class="nav">
+		<div class="col-10">
+			<div class="container-fluid nav-group">
+				<div class="row align-items-center justify-content-end">
+					<div class="col-8 g-0 nav-list nav-list--closed">
+						<ul class="nav nav-fill-xl">
 							<li class="nav-item">
 								<a class="nav-link" href="#">Sunt in ulpa qui offici</a>
 							</li>
@@ -24,8 +24,27 @@
 						</ul>
 					</div>
 
-					<div class="col-3 align-self-center">
+					<div class="col-1 g-0 nav-dropdown-group">
+						<div class="dropdown nav-dropdown">
+							<button class="btn btn-secondary dropdown-toggle" type="button" id="menu"
+								data-bs-toggle="dropdown" aria-expanded="false">
+								<img src="img/language_ru.jpg" alt="Language russian" width="34" height="20">
+							</button>
+							<ul class="dropdown-menu" aria-labelledby="menu">
+								<li><a class="dropdown-item" href="#">language 1</a></li>
+								<li><a class="dropdown-item" href="#">language 2</a></li>
+								<li><a class="dropdown-item" href="#">language 3</a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="col-xxl-2 col-xl-2 col-lg-2 col-md-1 col-sm-1 col-xs-1 g-0 nav-btn-container">
 						<button class="btn btn-primary nav-btn" type="button">Lorem ipsum</button>
+
+						<button class="btn btn-info nav-btn-info" type="button">
+							<img src="img/icon.svg" alt="Icon">
+						</button>
+
 					</div>
 				</div>
 

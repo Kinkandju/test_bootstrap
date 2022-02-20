@@ -1,0 +1,19 @@
+//Fonts
+$font-family-sans-serif: "Neris", "Neris-Black", "Neris-SemiBold", "Neris-Light", "Arial", sans-serif;
+
+//Colors
+$black: #000000;
+$white: #ffffff;
+$grey: #f5f5f5;
+$red: #ee3124;
+$blue: #005bab;
+
+//Width
+$container-max-widths: (
+	sm: 540px,
+	md: 720px,
+	lg: 960px,
+	xl: 1194px,
+	xxl: 1217px
+);
+$grid-gutter-width: 4rem;

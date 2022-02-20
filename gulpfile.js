@@ -1,133 +1,155 @@
+'use strict';
+
+/* пути к исходным файлам (src), к готовым файлам (build), а также к тем, за изменениями которых нужно наблюдать (watch) */
 const source_folder = "src";
-const project_folder = "project";
+const project_folder = "build";
 
 const path = {
 	build: {
-		html: project_folder + "/",
-		css: project_folder + "/css/",
-		js: project_folder + "/js/",
-		img: project_folder + "/assets/img/",
-		fonts: project_folder + "/assets/fonts/"
+		html: "assets/" + project_folder + "/",
+		css: "assets/" + project_folder + "/css/",
+		js: "assets/" + project_folder + "/js/",
+		img: "assets/" + project_folder + "/img/",
+		fonts: "assets/" + project_folder + "/fonts/"
 	},
 	src: {
-		html: [source_folder + "/*.html", "!" + source_folder + "/_*.html"],
-		css: source_folder + "/scss/*.scss",
-		js: source_folder + "/js/*.js",
-		img: source_folder + "/assets/img/**/*.{jpg,png,gif,ico,webp}",
-		fonts: source_folder + "/assets/fonts/*.{woff,woff2}"
+		html: "assets/" + source_folder + "/*.html",
+		style: "assets/" + source_folder + "/scss/main.scss",
+		js: "assets/" + source_folder + "/js/main.js",
+		img: "assets/" + source_folder + "/img/**/*.*",
+		fonts: "assets/" + source_folder + "/fonts/*.{woff,woff2}"
 	},
 	watch: {
-		html: source_folder + "/**/*.html",
-		css: source_folder + "/scss/**/*.scss",
-		js: source_folder + "/js/**/*.js",
-		img: source_folder + "/assets/img/**/*.{jpg,png,gif,ico,webp}"
+		html: "assets/" + source_folder + "/**/*.html",
+		css: "assets/" + source_folder + "/scss/**/*.scss",
+		js: "assets/" + source_folder + "/js/**/*.js",
+		img: "assets/" + source_folder + "/img/**/*.*",
+		fonts: "assets/" + source_folder + "/fonts/*.{woff,woff2}"
 	},
-	clean: "./" + project_folder + "/"
+	clean: "./assets/" + project_folder + "/*"
 }
 
 const { src, dest } = require("gulp"),
 	gulp = require("gulp"),
-	browsersync = require("browser-sync").create(),
-	fileinclude = require("gulp-file-include"),
-	del = require("del"),
-	sass = require("gulp-sass")(require("sass")),
-	autoprefixer = require("gulp-autoprefixer"),
-	cleancss = require("gulp-clean-css"),
-	rename = require("gulp-rename"),
-	uglify = require("gulp-uglify-es").default,
-	groupmedia = require("gulp-group-css-media-queries");
+	webserver = require('browser-sync'), // сервер для работы и автоматического обновления страниц
+	plumber = require('gulp-plumber'), // модуль для отслеживания ошибок
+	include = require('gulp-file-include'), // модуль для импорта содержимого одного файла в другой
+	sourcemaps = require('gulp-sourcemaps'), // модуль для генерации карты исходных файлов
+	sass = require('gulp-sass')(require('sass')), // модуль для компиляции SASS (SCSS) в CSS
+	autoprefixer = require('gulp-autoprefixer'), // модуль для автоматической установки автопрефиксов
+	cleanCSS = require('gulp-clean-css'), // плагин для минимизации CSS
+	uglify = require('gulp-uglify'), // модуль для минимизации JavaScript
+	cache = require('gulp-cache'), // модуль для кэширования
+	rimraf = require('gulp-rimraf'), // плагин для удаления файлов и каталогов
+	rename = require('gulp-rename');
 
-const browserSync = (params) => {
-	browsersync.init({
-		server: {
-			baseDir: "./" + project_folder + "/"
-		},
-		port: 3000,
-		notify: false
-	})
-}
 
-const parseHtml = () => {
-	return src(path.src.html)
-		.pipe(fileinclude())
-		.pipe(dest(path.build.html))
-		.pipe(browsersync.stream())
-}
+/* настройки сервера */
+var config = {
+	server: {
+		baseDir: './assets/build'
+	},
+	notify: false
+};
 
-const parseCss = () => {
-	return src(path.src.css)
-		.pipe(
-			sass({
-				outputStyle: "expanded"
-			})
+/* задачи */
+
+// запуск сервера
+gulp.task('webserver', function () {
+	webserver(config);
+});
+
+// сбор html
+gulp.task('html:build', function () {
+	return gulp.src(path.src.html) // выбор всех html файлов по указанному пути
+		.pipe(plumber()) // отслеживание ошибок
+		.pipe(include({
+			prefix: '@@',
+			basepath: '@file'
+		})) // импортируем все указанные файлы в index.html
+		.pipe(gulp.dest(path.build.html)) // выкладывание готовых файлов
+		.pipe(webserver.reload({ stream: true })); // перезагрузка сервера
+});
+
+// сбор стилей
+gulp.task('css:build', function () {
+	return gulp.src(path.src.style) // получим main.scss
+		.pipe(plumber()) // для отслеживания ошибок
+		.pipe(sourcemaps.init()) // инициализируем sourcemap
+		.pipe(sass()) // scss -> css
+		.pipe(autoprefixer()) // добавим префиксы
+		.pipe(gulp.dest(path.build.css))
+		.pipe(rename({ suffix: '.min' }))
+		.pipe(cleanCSS()) // минимизируем CSS
+		.pipe(sourcemaps.write('./')) // записываем sourcemap
+		.pipe(gulp.dest(path.build.css)) // выгружаем в build
+		.pipe(webserver.reload({ stream: true })); // перезагрузим сервер
+});
+
+// сбор js
+gulp.task('js:build', function () {
+	return gulp.src(path.src.js) // получим файл main.js
+		.pipe(plumber()) // для отслеживания ошибок
+		.pipe(include({
+			prefix: '//=',
+			basepath: '@file'
+		})) // импортируем все указанные файлы в main.js
+		.pipe(gulp.dest(path.build.js))
+		.pipe(rename({ suffix: '.min' }))
+		.pipe(sourcemaps.init()) //инициализируем sourcemap
+		.pipe(uglify()) // минимизируем js
+		.pipe(sourcemaps.write('./')) //  записываем sourcemap
+		.pipe(gulp.dest(path.build.js)) // положим готовый файл
+		.pipe(webserver.reload({ stream: true })); // перезагрузим сервер
+});
+
+// перенос шрифтов
+gulp.task('fonts:build', function () {
+	return gulp.src(path.src.fonts)
+		.pipe(gulp.dest(path.build.fonts));
+});
+
+// обработка картинок
+gulp.task('image:build', function () {
+	return gulp.src(path.src.img) // путь с исходниками картинок
+		.pipe(gulp.dest(path.build.img)); // выгрузка готовых файлов
+});
+
+// удаление каталога build 
+gulp.task('clean:build', function () {
+	return gulp.src(path.clean, { read: false })
+		.pipe(rimraf());
+});
+
+// очистка кэша
+gulp.task('cache:clear', function () {
+	cache.clearAll();
+});
+
+// сборка
+gulp.task('build',
+	gulp.series('clean:build',
+		gulp.parallel(
+			'html:build',
+			'css:build',
+			'js:build',
+			'fonts:build',
+			'image:build'
 		)
-		.pipe(
-			groupmedia()
-		)
-		.pipe(
-			autoprefixer({
-				overrideBrowserslist: ["last 5 versions"],
-				cascade: true
-			})
-		)
-		.pipe(dest(path.build.css))
-		.pipe(cleancss())
-		.pipe(
-			rename({
-				extname: ".min.css"
-			})
-		)
-		.pipe(dest(path.build.css))
-		.pipe(browsersync.stream())
-}
+	)
+);
 
-const parseJs = () => {
-	return src(path.src.js)
-		.pipe(fileinclude())
-		.pipe(dest(path.build.js))
-		.pipe(
-			uglify()
-		)
-		.pipe(
-			rename({
-				extname: ".min.js"
-			})
-		)
-		.pipe(dest(path.build.js))
-		.pipe(browsersync.stream())
-}
+// запуск задач при изменении файлов
+gulp.task('watch', function () {
+	gulp.watch(path.watch.html, gulp.series('html:build'));
+	gulp.watch(path.watch.css, gulp.series('css:build'));
+	gulp.watch(path.watch.js, gulp.series('js:build'));
+	gulp.watch(path.watch.img, gulp.series('image:build'));
+	gulp.watch(path.watch.fonts, gulp.series('fonts:build'));
+});
 
-const createImages = () => {
-	return src(path.src.img)
-		.pipe(dest(path.build.img))
-		.pipe(browsersync.stream())
-}
-
-const parseFonts = () => {
-	return src(path.src.fonts)
-		.pipe(dest(path.build.fonts))
-		.pipe(browsersync.stream())
-}
-
-const watchFiles = (params) => {
-	gulp.watch([path.watch.html], parseHtml);
-	gulp.watch([path.watch.css], parseCss);
-	gulp.watch([path.watch.js], parseJs);
-	gulp.watch([path.watch.img], createImages);
-}
-
-const cleanFolder = (params) => {
-	return del(path.clean);
-}
-
-let build = gulp.series(cleanFolder, gulp.parallel(parseHtml, parseCss, parseJs, createImages, parseFonts,));
-let watch = gulp.parallel(build, watchFiles, browserSync);
-
-exports.parseFonts = parseFonts;
-exports.createImages = createImages;
-exports.parseJs = parseJs;
-exports.parseCss = parseCss;
-exports.parseHtml = parseHtml;
-exports.build = build;
-exports.watch = watch;
-exports.default = watch;
+// задача по умолчанию
+gulp.task('default', gulp.series(
+	'build',
+	gulp.parallel('webserver', 'watch')
+));

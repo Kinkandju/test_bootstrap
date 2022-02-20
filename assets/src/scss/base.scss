@@ -1,0 +1,48 @@
+body {
+	font-family: $font-family-sans-serif;
+}
+
+h1,
+h2 {
+	font-size: 45px;
+	line-height: 60px;
+	font-weight: 600;
+
+	@include media-breakpoint-down(sm) {
+		font-size: 30px;
+		line-height: 40px;
+	}
+}
+
+p {
+	font-size: 22px;
+	line-height: 40px;
+	font-weight: 300;
+
+	@include media-breakpoint-down(sm) {
+		font-size: 16px;
+		line-height: 26px;
+	}
+}
+
+li {
+	font-size: 16px;
+	line-height: 26px;
+	font-weight: 300;
+}
+
+.btn-primary {
+	font-weight: 900;
+	text-transform: uppercase;
+
+	color: $white;
+	background-color: $red;
+	border: none;
+
+	transition: all 0.50s ease-in-out;
+
+	&:hover,
+	&:active {
+		background-color: $blue;
+	}
+}

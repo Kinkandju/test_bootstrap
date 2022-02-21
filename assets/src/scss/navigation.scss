@@ -3,7 +3,7 @@
 
 	padding: 60px 53px 0 70px;
 
-	box-shadow: 0px 0px 33px -20px $black;
+	box-shadow: 0px 0px 33px -20px $black; // bootstrap так же подволяет управлять box-shadow
 
 	&::after {
 		position: absolute;
@@ -64,6 +64,7 @@
 	}
 }
 
+// ???
 .nav-group {
 	margin: 0;
 	padding: 0;
@@ -114,7 +115,7 @@
 		margin: 0 3% 0 0;
 	}
 }
-
+// Аналогично, это все настраивается через переменные
 .nav-link {
 	padding: 27px 0;
 
@@ -162,7 +163,8 @@
 		display: none;
 	}
 }
-
+// Еще одна своя кнопка.
+// Представь,сколько мы потратим времени на верстк, если везде будем делать свои кнопки
 .nav-btn-info {
 	display: none;
 
